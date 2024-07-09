@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@{
+    var FistName = Context.Session.GetString("FistName");
+    var LastName = Context.Session.GetString("LastName");
+}
+<style>
+  
+    .text-center {
+        margin-bottom: 20px;
+    }
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .card {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        paddingx: 20px;
+        margin-top : 30px;
+        width: 200px;
+        text-align: center;
+    }
+
+    .icon {
+        font-size: 40px;
+        color: #ff7f00;
+        margin-right: 15px;
+    }
+
+    .count h2 {
+        margin: 0;
+        color: #ff7f00;
+        font-size: 36px;
+    }
+
+    .count p {
+        margin: 0;
+        color: #777777;
+        font-size: 16px;
+    }
+
+    .rounded {
+        border-radius: 8px;
+    }
+
+    .float-left {
+        float: left;
+        margin-right: 20px;
+    }
+
+    .img-center{
+        text-align: center;
+    }
+</style>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome @FistName @LastName!</h1>
+</div>
+
+<div class="img-center">
+    <img class="rounded" src="~/r.png" />
+</div>
+
+<div class="card-container">
+    <div class="card">
+        <div class="icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div class="count">
+            <h2>@ViewData["StudentCount"]</h2>
+            <p>Students</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="icon">
+            <i class="fa-solid fa-chalkboard-user"></i>
+        </div>
+        <div class="count">
+            <h2>@ViewData["TeacherCount"]</h2>
+            <p>Teacher</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="icon">
+            <i class="fa-solid fa-school"></i>
+        </div>
+        <div class="count">
+            <h2>@ViewData["Classadmin"]</h2>
+            <p>Class</p>
+        </div>
+    </div>
+</div>

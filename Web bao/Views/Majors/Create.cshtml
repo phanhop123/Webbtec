@@ -1,0 +1,34 @@
+﻿@model Web_bao.Data.Major
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+    .edit{
+        margin-left: 10px;
+    }
+</style>
+<h1 class="edit">Create Major</h1>
+
+<hr />
+<div class="container form-container d-flex justify-content-center align-items-center">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

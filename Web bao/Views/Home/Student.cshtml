@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Web_bao.Data.User>
+
+@{
+    ViewData["Title"] = "Student";
+}
+<style>
+    .creat-student{
+        margin-left : 20px;
+    }
+
+    .creat-studentt {
+        margin-left: 10px;
+    }
+</style>
+<h1 class="creat-studentt">Student</h1>
+
+<p class="creat-student">
+    <a asp-action="Register">Creat Student</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FistName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Major)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FistName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birthday)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password, "Password")
+                </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+         
+            <td>
+                @Html.DisplayFor(modelItem => item.Major.Name)
+            </td>
+            <td>
+                    <a asp-action="Editstudent" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="DeleteStudent" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

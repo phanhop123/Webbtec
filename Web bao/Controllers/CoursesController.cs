@@ -56,16 +56,17 @@ namespace Web_bao.Controllers
             var courses = new Course()
             {
                 Name = course.Name,
-                Image = Myunti.UploadHinh(course.Image, "hinh"),
+                Description = course.Description,
+                Image = Myunti.UploadHinh(course.Image,"Anhhoc"),
                 Category_Id = course.Category_Id,
                 User_id = course.User_id
             };
            
             
 
-                _context.Add(course);
+                _context.Add(courses);
                 await _context.SaveChangesAsync();
-            return RedirectToAction("Course");
+            return RedirectToAction("Index");
             
 
         }

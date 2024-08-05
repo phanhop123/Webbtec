@@ -21,17 +21,12 @@ namespace Web_bao.Controllers
             _context = context;
         }
 
-        // GET: Courses
         public async Task<IActionResult> Index()
         {
             var connectDB = _context.Course.Include(c => c.Category).Include(c => c.User);
             return View(await connectDB.ToListAsync());
         }
 
-        // GET: Courses/Details/5
-        
-
-        // GET: Courses/Create
         public IActionResult Create()
         {
             ViewData["Category_Id"] = new SelectList(_context.Category,"Id", "Name" );
@@ -47,7 +42,6 @@ namespace Web_bao.Controllers
 
             return View();
         }
-
        
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -72,62 +66,54 @@ namespace Web_bao.Controllers
         }
 
         // GET: Courses/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+
+        public ActionResult Edit(int id)
         {
-            if (id == null || _context.Course == null)
-            {
-                return NotFound();
-            }
+            // Find the course by id
+            var course = _context.Course.Find(id);
+          
 
-            var course = await _context.Course.FindAsync(id);
-            if (course == null)
+            var editCourse = new Web_bao.DTO.EditCourse
             {
-                return NotFound();
-            }
-            ViewData["Category_Id"] = new SelectList(_context.Category, "Id", "Name", course.Category_Id);
-            ViewData["User_id"] = new SelectList(_context.Users, "Id", "LastName", course.User_id);
-            return View(course);
+                Id = course.Id,
+                Name = course.Name,
+                Description = course.Description,
+                Url = course.Image,
+                Category_Id = course.Category_Id,
+                User_id = course.User_id
+            };
+            ViewData["Category_Id"] = new SelectList(_context.Category, "Id", "Name");
+            ViewData["User_id"] = new SelectList(
+                           _context.Users
+                            .Where(user => user.Role == 1)
+                            .Select(user => new {
+                                Id = user.Id,
+                                FullName = user.LastName + " " + user.FistName
+                            }),
+                           "Id",
+                           "FullName");
+            return View(editCourse);
         }
-
-        // POST: Courses/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Image,Category_Id,User_id")] Course course)
+        public ActionResult Edit(EditCourse model)
         {
-            if (id != course.Id)
+            var course = _context.Course.FirstOrDefault(u => u.Id == model.Id);
+            if (course != null)
             {
-                return NotFound();
-            }
+                course.Id = model.Id;
+                course.Image = Myunti.UploadHinh(model.Image, "Filenopbt");
+                course.Name = model.Name;
+                course.Description = model.Description;
+                course.Category_Id = model.Category_Id;
+                course.User_id = model.User_id;
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(course);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CourseExists(course.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Entry(course).State = EntityState.Modified;
+                _context.SaveChanges();
             }
-            ViewData["Category_Id"] = new SelectList(_context.Category, "Id", "Id", course.Category_Id);
-            ViewData["User_id"] = new SelectList(_context.Users, "Id", "Id", course.User_id);
-            return View(course);
+            return View();
         }
 
-        // GET: Courses/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+            public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Course == null)
             {
@@ -146,7 +132,6 @@ namespace Web_bao.Controllers
             return View(course);
         }
 
-        // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

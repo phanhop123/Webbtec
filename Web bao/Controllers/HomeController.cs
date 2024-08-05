@@ -51,8 +51,6 @@ namespace Web_bao.Controllers
             }
 
             return RedirectToAction("Login");
-
-
 		}
 		public IActionResult index()
         {
